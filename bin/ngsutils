@@ -19,7 +19,7 @@ usage() {
     exit 1
 }
 
-if [ "$1" == "" ]; then
+if [ "$1" = "" ]; then
     usage
 fi
 
@@ -27,22 +27,22 @@ fi
 . "$DIR"/venv/bin/activate
 export PYTHONPATH=$PYTHONPATH:"$DIR"
 
-if [ "$SUBDIR" == "ngs" ]; then
+if [ "$SUBDIR" = "ngs" ]; then
     if [ -e "$DIR"/.git ]; then
-        if [ "$1" == "update" ]]; then
+        if [ "$1" = "update" ]]; then
             cd "$DIR"
     
             echo "Updating from current branch"
             git pull 
 
             exit 0
-        elif [ "$1" == "switch" ]; then
+        elif [ "$1" = "switch" ]; then
             cd "$DIR"
     
             if [ "$2" != "" ]; then
                 echo "Switching to branch: $2"
                 git fetch origin
-                if [ "$(git branch -l | grep "$2")" == "" ]; then
+                if [ "$(git branch -l | grep "$2")" = "" ]; then
                     git branch -t $2 origin/$2
                 fi
                 git checkout $2
@@ -56,8 +56,8 @@ if [ "$SUBDIR" == "ngs" ]; then
 fi
 
 
-if [ "$1" == "help" ]; then
-    if [ "$2" == "" ]; then
+if [ "$1" = "help" ]; then
+    if [ "$2" = "" ]; then
         usage
     fi
     
@@ -72,13 +72,13 @@ if [ "$1" == "help" ]; then
     fi
     "$DIR"/ngsutils/$SUBDIR/$action -h
 
-elif [ "$1" == "version" ]; then
+elif [ "$1" = "version" ]; then
     cd $DIR
     GV="$(git show master --format='%h %ai' | head -n 1)"
     VERSION=$(echo "$GV" | awk '{print $1}')
     echo "$(cat VERSION | sed -e 's/\n//')-$VERSION"
 
-elif [ "$1" == "profile" ]; then
+elif [ "$1" = "profile" ]; then
     shift
     action=$1.py
 
